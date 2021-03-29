@@ -31,8 +31,8 @@ def load_data(messages_filepath, categories_filepath):
 def clean_data(df):
     """
     Cleans the input dataframe.
-    Turns the categories column into separate columns for each category 
-    having values of just 1 and 0 and drops duplicates.
+    Turns the categories column into separate columns for each category having values of just 1 and 0.
+    Drops duplicates and columns that have only zeros.
     
     Input
     -----
@@ -52,9 +52,12 @@ def clean_data(df):
     # convert category values to just numbers 0 or 1
     for column in categories:
         categories[column] = categories[column].str.split('-').str[1]
-        categories[column] = pd.to_numeric(categories[column])    
-    
+        categories[column] = pd.to_numeric(categories[column])  
     categories.loc[categories.related==2] = 1
+    
+    # drop columns that have only 0s
+    zero_columns = [column for column in categories if categories[column].max() == 0]
+    df.drop(zero_columns, axis=1, inplace=True)
         
     # replace categories column in df with new processed category columns
     df.drop(['categories'], axis=1, inplace=True)
