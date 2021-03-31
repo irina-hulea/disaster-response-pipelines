@@ -1,4 +1,4 @@
-# Disaster Response Pipeline Project
+# Disaster Messages Detection Project
 
 ### Table of Contents
 
@@ -18,6 +18,7 @@ For training, the model used 26000 real messages sent during disaster events tha
 
 ## Installation <a name="installation"></a>
 The code works with `python` versions `3.*`
+
 The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt` file.
 
 ## Instructions <a name="instructions"></a>
@@ -27,11 +28,13 @@ If you wish to run the app locally, below are the steps you need to follow
     - Optional - To run ETL pipeline that cleans data and stores it in an SQLite database
         
 	`python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
-        This is optional because the database is already in the project. If you wish to update the data processing step, then you should run the command above to update your database file.
+        
+	This is optional because the database is already in the project. If you wish to update the data processing step, then you should run the command above to update your database file.
     - Mandatory - To run ML pipeline that trains classifier and saves it into a picke file
         
 	`python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
-        This is mandatory because the trained model file was too large for github. Expect the training process to take around 20 minutes.
+        
+	This is mandatory because the trained model file was too large for github. Expect the training process to take around 20 minutes.
         
 2. Run the following command in the app's directory to run the web app
     
@@ -42,7 +45,9 @@ If you wish to run the app locally, below are the steps you need to follow
 ## Processes and Files Description <a name="files"></a>
 
 The ETL pipeline reads data from input csv files, processes data and saves the results in a database file.
+
 The ML pipeline reads prepared data from database, transforms text and extracts features, trains a classifier and saves the trained model into a picke file.
+
 In the web app, for visualisation there is used data from the clean database and for classification there is used the already trained model.
 
 <pre>
@@ -70,4 +75,4 @@ An user can input any new message and see if it is detected as related to a disa
 ![result example](https://raw.githubusercontent.com/irina-hulea/disaster-response-pipelines/a42eb97c6c59f2806fd74c2b3e98db6fc4ff0324/result-example.PNG)
 
 ## Acknowledgements <a name="acknowledgements"></a>
-Input data is provided by [appen](https://appen.com/).
+Input data containing 26000 real messages sent during disaster events is provided by [appen](https://appen.com/).
