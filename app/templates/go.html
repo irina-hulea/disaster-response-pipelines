@@ -1,0 +1,30 @@
+{% extends "master.html" %}
+{% block title %}Results{% endblock %}
+
+{% block message %}
+    <hr />
+    <div class="card border-info mb-3 align-items-center" style="max-width: 18rem;">
+      <div class="card-body text-info">
+        <h5 class="card-title">MESSAGE</h5>
+        <p class="card-text"><i>{{query}}</i></p>
+      </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+	<br/>
+    <br/>
+    <h1 class="text-center">Result</h1>
+        <ul class="list-group">
+            {% for category, classification in classification_result.items() %}
+                {% if classification == 1 %}
+                    <li class="list-group-item list-group-item-success text-center">{{category.replace('_', ' ').title()}}</li>
+                {% else %}
+                    <li class="list-group-item list-group-item-dark text-center">{{category.replace('_', ' ').title()}}</li>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}
