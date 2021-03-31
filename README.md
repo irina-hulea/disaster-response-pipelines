@@ -19,7 +19,7 @@ For training, the model used 26000 real messages sent during disaster events tha
 ## Installation <a name="installation"></a>
 The code works with `python` versions `3.*`
 
-The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt` file.
+The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt`
 
 ## Instructions <a name="instructions"></a>
 If you wish to run the app locally, below are the steps you need to follow
