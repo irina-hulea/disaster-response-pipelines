@@ -1,5 +1,6 @@
 import sys
 import pickle
+from time import time
 from sqlalchemy import create_engine
 
 import numpy as np
@@ -110,7 +111,7 @@ def tokenize(text):
     tokens = word_tokenize(text)
     
     # custom list of stop words consiststing of most nltk stopwords, but without negative words like 'against', 'no', 'not', considering our task
-    stop_words = ["i", "me", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs",                           "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but",                       "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over",                         "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "both", "each", "few", "more", "most", "other", "some", "such", "only", "own", "same", "so", "than", "too", "very", "s", "can",                   "will", "just", "should", "now",
+    stop_words = ["i", "me", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "both", "each", "few", "more", "most", "other", "some", "such", "only", "own", "same", "so", "than", "too", "very", "s", "can", "will", "just", "should", "now",
                  ]
     lemmatizer = WordNetLemmatizer()
 
@@ -128,41 +129,45 @@ def build_model():
     ------
     model: GridSearchCV
         classifier to be trained
+    parameters: dictionary
+        parameters to be tried during grid search
     """
     
     pipeline = Pipeline([
-        ('vect', CountVectorizer(tokenizer=tokenize, lowercase=False)),
+        ('vect', CountVectorizer(tokenizer=tokenize, ngram_range=(1, 2), lowercase=False)),
         ('tfidf', TfidfTransformer()),
         ('model_nb', MultiOutputClassifier(MultinomialNB()))
     ])
-    
+
     parameters = {
-        'vect__ngram_range': ((1, 2), (1, 3)),
-        'vect__max_features': (25000, 50000, 100000),
+        'vect__max_df': (0.5, 0.75),
+        'vect__max_features': (None, 150000, 200000),
         'tfidf__use_idf': (True, False),
-        'model_nb__estimator__alpha': (0.01, 0.1, 1)
+        'model_nb__estimator__alpha': (0.01, 0.1)
     }
     
     model = GridSearchCV(pipeline, param_grid=parameters, scoring='recall_micro')
     
-    return model
+    return model, parameters
 
 def evaluate_model(model, X_test, y_test):
     """
-    For a previously trained model, prints the accuracy score and classification report for every class.
-    Also, there are printed the parameters used.
+    For a previously trained model, prints the classification report for every class.
+    
+    Input
+    -----
+    model: GridSearchCV
+        trained classifier to be evaluated
+    X_test: numpy array
+        array containing the test set
+    y_test: Pandas DataFrame
+        dataframe containing labels for the test set
     """
     
     y_pred = model.predict(X_test)
     
-    for category in y_test:
-        print(f'Class {category.upper()}: accuracy {accuracy_score(y_test[column].values, y_pred[column].values)}')
-        print(classification_report(y_test[column].values, y_pred[column].values))
-        
-    print("Best parameters set:")
-    best_parameters = model.best_estimator_.get_params()
-    for param_name in sorted(parameters.keys()):
-        print("\t%s: %r" % (param_name, best_parameters[param_name]))
+    for i, category in enumerate(y_test):
+        print(f'Class {category.upper()}:\n {classification_report(y_test.iloc[:, i].values, y_pred[:, i])}')
 
 def save_model(model, model_filepath):
     """
@@ -189,10 +194,17 @@ def main():
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
         
         print('Building model...')
-        model = build_model()
+        model, parameters = build_model()
         
         print('Training model...')
+        t0 = time()
         model.fit(X_train, y_train)
+        print("done in %0.1fs minutes" % ((time() - t0)/60))
+        
+        print("Best parameters set:")
+        best_parameters = model.best_estimator_.get_params()
+        for param_name in sorted(parameters.keys()):
+            print("\t%s: %r" % (param_name, best_parameters[param_name]))
         
         print('Evaluating model...')
         evaluate_model(model, X_test, y_test)
