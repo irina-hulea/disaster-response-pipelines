@@ -14,25 +14,28 @@ The motivation of this project is to make possible the detection of messages sen
 to the appropriate disaster relief agency.
 
 This is a web app where an user can input any new message and see if it is detected as related to a disaster and if positive, the disaster categories.
-For training, the model used 26000 real messages that were sent during disaster events that belong to 35 disaster categories. The web app also displays visualizations of the training data.
+For training, the model used 26000 real messages sent during disaster events that belong to 35 disaster categories. The web app also displays visualizations of the training data.
 
 ## Installation <a name="installation"></a>
-The code works with Python versions 3.*
-The libraries needed for the notebook to run successfully together with the version used can be found in `requirements.txt` file.
+The code works with `python` versions `3.*`
+The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt` file.
 
 ## Instructions <a name="instructions"></a>
 If you wish to run the app locally, below are the steps you need to follow
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - Optional - To run ETL pipeline that cleans data and stores it in an SQLite database
-        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
+        
+	`python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
         This is optional because the database is already in the project. If you wish to update the data processing step, then you should run the command above to update your database file.
     - Mandatory - To run ML pipeline that trains classifier and saves it into a picke file
-        `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
+        
+	`python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
         This is mandatory because the trained model file was too large for github. Expect the training process to take around 20 minutes.
         
-2. Run the following command in the app's directory to run your web app.
-    `python run.py`
+2. Run the following command in the app's directory to run the web app
+    
+	`python run.py`
 
 3. Go to http://0.0.0.0:3001/
 
@@ -64,7 +67,7 @@ In the web app, for visualisation there is used data from the clean database and
 
 ## Results <a name="results"></a>
 An user can input any new message and see if it is detected as related to a disaster and if positive, the disaster categories.
-![result example](https://github.com/irina-hulea/disaster-response-pipelines/blob/main/result-example.PNG)
+![result example](https://raw.githubusercontent.com/irina-hulea/disaster-response-pipelines/a42eb97c6c59f2806fd74c2b3e98db6fc4ff0324/result-example.PNG)
 
 ## Acknowledgements <a name="acknowledgements"></a>
 Input data is provided by [appen](https://appen.com/).
