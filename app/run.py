@@ -1,8 +1,9 @@
 import sys
-sys.path.append('/home/workspace/web_app/')
+sys.path.append('../')
 
 import json
 import plotly
+import joblib
 import pandas as pd
 
 from models import tokenize
@@ -10,7 +11,6 @@ from models import tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
 
