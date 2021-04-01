@@ -14,7 +14,6 @@ from plotly.graph_objs import Bar
 from sqlalchemy import create_engine
 
 
-
 app = Flask(__name__)
 
 # load data
