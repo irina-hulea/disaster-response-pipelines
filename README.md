@@ -3,11 +3,10 @@
 ### Table of Contents
 
 1. [Project Overview](#motivation)
-2. [Installation](#installation)
-3. [Instructions](#instructions)
-5. [Processes and Files Description](#files)
-6. [Results](#results)
-7. [Acknowledgements](#acknowledgements)
+2. [Instructions](#instructions)
+3. [Processes and Files Description](#files)
+4. [Results](#results)
+5. [Acknowledgements](#acknowledgements)
 
 ## Project Overview <a name="motivation"></a>
 The motivation of this project is to make possible the detection of messages sent during a disaster so that those could be effectively redirected
@@ -16,14 +15,15 @@ to the appropriate disaster relief agency.
 This is a web app where an user can input any new message and see if it is detected as related to a disaster and if positive, the disaster categories.
 For training, the model used 26000 real messages sent during disaster events that belong to 35 disaster categories. The web app also displays visualizations of the training data.
 
-## Installation <a name="installation"></a>
-The code works with `python` versions `3.*`
-
-The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt`
-
 ## Instructions <a name="instructions"></a>
-If you wish to run the app locally, below are the steps you need to follow
-1. Run the following commands in the project's root directory to set up your database and model.
+This web application has been deployed to Heroku and can be accessed via the url http://disaster-messages-detection.herokuapp.com/
+
+If, however, you wish to run the app locally, follow the steps below.
+
+1. The code works with `python` versions `3.*`. The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt`. You can install those using the command
+	`pip install -r requirements.txt`
+
+2. Run the following commands in the project's root directory to set up your database and model.
 
     - Optional - To run ETL pipeline that cleans data and stores it in an SQLite database
         
@@ -34,13 +34,13 @@ If you wish to run the app locally, below are the steps you need to follow
         
 	`python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
         
-	This is mandatory because the trained model file was too large for github. Expect the training process to take around 20 minutes.
+	This is mandatory because the trained model file was too large for github. Expect the training process to take around 30 minutes.
         
-2. Run the following command in the app's directory to run the web app
+3. Run the following command in the app's directory to run the web app
     
 	`python run.py`
 
-3. Go to http://0.0.0.0:3001/
+4. Go to http://0.0.0.0:3001/
 
 ## Processes and Files Description <a name="files"></a>
 
