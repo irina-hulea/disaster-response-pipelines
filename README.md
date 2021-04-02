@@ -21,6 +21,7 @@ This web application has been deployed to Heroku and can be accessed via the url
 If, however, you wish to run the app locally, follow the steps below.
 
 1. The code works with `python` versions `3.*`. The libraries needed for the app to run successfully together with the version used can be found in `requirements.txt`. You can install those using the command
+	
 	`pip install -r requirements.txt`
 
 2. Run the following commands in the project's root directory to set up your database and model.
