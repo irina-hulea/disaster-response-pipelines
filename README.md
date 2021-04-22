@@ -1,4 +1,4 @@
-# Disaster Messages Detection Project
+# Disaster Messages Detection
 
 ### Table of Contents
 
